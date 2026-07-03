@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA Watch — Your Wrist, Upgraded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#0B1220;
+    --panel:#121B2E;
+    --panel-2:#182338;
+    --cyan:#00D9FF;
+    --gold:#D4A73A;
+    --off:#F3F5F8;
+    --muted:#8B96AB;
+    --line:rgba(243,245,248,0.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--midnight);
+    color:var(--off);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1140px;margin:0 auto;}
+  .logo{font-size:20px;font-weight:700;letter-spacing:0.02em;display:flex;align-items:center;gap:8px;}
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+  .nav-cta{
+    background:var(--cyan);color:var(--midnight);font-weight:600;font-size:14px;
+    padding:10px 18px;border-radius:100px;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,217,255,0.25);}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:64px 0 56px;
+    background:
+      radial-gradient(700px 400px at 85% -10%, rgba(0,217,255,0.14), transparent 60%),
+      radial-gradient(500px 300px at -10% 100%, rgba(212,167,58,0.10), transparent 60%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--cyan);border:1px solid rgba(0,217,255,0.3);padding:6px 12px;border-radius:100px;margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-0.01em;margin-bottom:20px;
+  }
+  .hero h1 span{color:var(--cyan);}
+  .hero p.lead{font-size:17px;line-height:1.6;color:var(--muted);max-width:480px;margin-bottom:32px;}
+  .price-row{display:flex;align-items:center;gap:18px;margin-bottom:32px;flex-wrap:wrap;}
+  .price{
+    font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:600;color:var(--gold);
+  }
+  .price-sub{font-size:13px;color:var(--muted);}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--cyan);color:var(--midnight);font-weight:700;font-size:16px;
+    padding:16px 28px;border-radius:12px;border:none;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,217,255,0.3);}
+  .btn-secondary{
+    display:inline-flex;align-items:center;gap:8px;
+    color:var(--off);font-weight:600;font-size:15px;padding:16px 6px;border-bottom:1px solid var(--line);
+  }
+  .hero-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+
+  /* hero visual */
+  .hero-visual{position:relative;display:flex;justify-content:center;align-items:center;}
+  .glow-ring{
+    position:absolute;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle, rgba(0,217,255,0.18), transparent 70%);
+    filter:blur(6px);
+  }
+  .product-photo{
+    position:relative;z-index:2;width:78%;border-radius:20px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
+    border:1px solid var(--line);
+  }
+  .watch-face{
+    position:absolute;z-index:3;bottom:-18px;left:-6px;
+    width:118px;height:118px;border-radius:50%;
+    background:var(--panel);border:2px solid var(--gold);
+    box-shadow:0 12px 30px rgba(0,0,0,0.5);
+  }
+  .watch-face svg{width:100%;height:100%;}
+
+  /* SECTION generic */
+  section{padding:76px 0;}
+  .section-head{max-width:560px;margin-bottom:44px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.2;}
+  .section-head p{color:var(--muted);margin-top:12px;font-size:15.5px;line-height:1.6;}
+
+  /* FEATURES */
+  .features{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .feature-card{background:var(--panel);padding:32px 26px;}
+  .feature-card .idx{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);margin-bottom:16px;display:block;}
+  .feature-card h3{font-size:17px;margin-bottom:10px;font-weight:600;}
+  .feature-card p{font-size:14px;color:var(--muted);line-height:1.55;}
+
+  /* GALLERY */
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .gallery-grid figure{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--panel-2);}
+  .gallery-grid img{width:100%;height:220px;object-fit:cover;}
+  .gallery-grid figcaption{padding:12px 14px;font-size:13px;color:var(--muted);}
+
+  /* ORDER */
+  .order{background:linear-gradient(180deg, var(--panel) 0%, var(--midnight) 100%);border-top:1px solid var(--line);}
+  .order-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:start;}
+  .order-summary{background:var(--panel-2);border:1px solid var(--line);border-radius:18px;padding:28px;}
+  .order-summary h3{font-size:18px;margin-bottom:18px;}
+  .order-summary .line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--muted);}
+  .order-summary .line strong{color:var(--off);font-weight:600;}
+  .order-summary .total{display:flex;justify-content:space-between;padding-top:18px;font-size:18px;font-weight:700;}
+  .order-summary .total .mono{color:var(--gold);}
+
+  form{display:flex;flex-direction:column;gap:16px;}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:0.01em;}
+  .field input, .field select, .field textarea{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;color:var(--off);font-family:'Inter',sans-serif;font-size:15px;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--cyan);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .submit-btn{
+    margin-top:8px;background:var(--gold);color:var(--midnight);font-weight:700;font-size:16px;
+    padding:16px 24px;border-radius:12px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,167,58,0.3);}
+  .form-note{font-size:12.5px;color:var(--muted);text-align:center;}
+
+  /* FOOTER */
+  footer{padding:36px 0;border-top:1px solid var(--line);}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+  footer p{font-size:13px;color:var(--muted);}
+
+  /* STICKY MOBILE BAR */
+  .sticky-bar{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:60;
+    background:rgba(18,27,46,0.95);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);padding:14px 20px;
+    align-items:center;justify-content:space-between;
+  }
+  .sticky-bar .mono{font-size:18px;color:var(--gold);font-weight:600;}
+  .sticky-bar a{background:var(--cyan);color:var(--midnight);font-weight:700;padding:12px 22px;border-radius:10px;font-size:14.5px;}
+
+  @media (max-width: 880px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{order:-1;margin-bottom:8px;}
+    .hero h1{font-size:34px;}
+    .feature-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .order-grid{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+    body{padding-bottom:74px;}
+    .sticky-bar{display:flex;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    * {animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="dot"></span>NEXA</div>
+    <a href="#order" class="nav-cta">Order now</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Smartwatch · In stock now</div>
+      <h1>Your health, messages, and music — <span>all on your wrist.</span></h1>
+      <p class="lead">Track your fitness, manage your day, and never miss a beat. More than a watch — it's your daily health coach and personal assistant.</p>
+      <div class="price-row">
+        <div>
+          <div class="price">₦14,000</div>
+          <div class="price-sub">One-time payment · pay on delivery available</div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#order" class="btn-primary">Order your NEXA Watch →</a>
+        <a href="#features" class="btn-secondary">See what it does</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glow-ring"></div>
+      <img class="product-photo" src="images/product-1.jpeg" alt="NEXA smartwatch with interchangeable straps and wireless earbuds in packaging">
+      <div class="watch-face" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#8B96AB" stroke-width="1" opacity="0.4"/>
+          <g id="ticks"></g>
+          <line id="hourHand" x1="50" y1="50" x2="50" y2="28" stroke="#F3F5F8" stroke-width="3" stroke-linecap="round"/>
+          <line id="minHand" x1="50" y1="50" x2="50" y2="18" stroke="#F3F5F8" stroke-width="2" stroke-linecap="round"/>
+          <line id="secHand" x1="50" y1="50" x2="50" y2="14" stroke="#00D9FF" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="2.5" fill="#D4A73A"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What it does</div>
+      <h2>One device, four jobs.</h2>
+      <p>Everything you'd normally reach for your phone for — now a glance away.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="idx">01</span>
+        <h3>Health tracking</h3>
+        <p>Keeps an eye on your activity and vitals through the day, without you having to think about it.</p>
+      </div>
+      <div class="feature-card">
+        <span class="idx">02</span>
+        <h3>Messages & calls</h3>
+        <p>See texts, calls, and notifications the moment they land, right on your wrist.</p>
+      </div>
+      <div class="feature-card">
+        <span class="idx">03</span>
+        <h3>Music control</h3>
+        <p>Skip tracks and adjust volume without ever pulling your phone out of your pocket.</p>
+      </div>
+      <div class="feature-card">
+        <span class="idx">04</span>
+        <h3>Daily assistant</h3>
+        <p>Your command center for an active lifestyle — from morning runs to late meetings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">In the box</div>
+      <h2>Exactly what arrives at your door.</h2>
+      <p>Every NEXA Watch ships complete — no extra purchases needed to start using it.</p>
+    </div>
+    <div class="gallery-grid">
+      <figure>
+        <img src="images/unboxing-1.jpeg" alt="Smartwatch box open showing watch, steel strap, leather strap, and charging cable">
+        <figcaption>Full set, unboxed</figcaption>
+      </figure>
+      <figure>
+        <img src="images/product-1.jpeg" alt="Smartwatch with two interchangeable straps and wireless earbuds">
+        <figcaption>Two straps included</figcaption>
+      </figure>
+      <figure>
+        <img src="images/product-2.png" alt="Smartwatch and packaging on a table">
+        <figcaption>Retail packaging</figcaption>
+      </figure>
+      <figure>
+        <img src="images/box-1.jpeg" alt="Sealed smartwatch boxes ready for delivery">
+        <figcaption>Sealed & ready to ship</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="order" id="order">
+  <div class="wrap order-grid">
+    <div class="order-summary">
+      <h3>Order summary</h3>
+      <div class="line"><span>NEXA Watch</span><strong>×1</strong></div>
+      <div class="line"><span>Straps included</span><strong>2</strong></div>
+      <div class="line"><span>Delivery</span><strong>Arranged after order</strong></div>
+      <div class="total"><span>Total</span><span class="mono">₦14,000</span></div>
+    </div>
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <div class="eyebrow">Place your order</div>
+        <h2 style="font-size:26px;">Fill this in — we'll confirm on WhatsApp.</h2>
+      </div>
+      <form id="orderForm">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" required placeholder="e.g. Amaka Okafor">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="phone">Phone / WhatsApp number</label>
+            <input type="tel" id="phone" required placeholder="080X XXX XXXX">
+          </div>
+          <div class="field">
+            <label for="qty">Quantity</label>
+            <select id="qty">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="address">Delivery address</label>
+          <textarea id="address" rows="3" required placeholder="Street, city, state"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send order on WhatsApp →</button>
+        <p class="form-note">Tapping this opens WhatsApp with your order details pre-filled — nothing is charged yet.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="logo" style="font-size:16px;"><span class="dot"></span>NEXA</div>
+    <p>₦14,000 per watch · Contact us on WhatsApp to order</p>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <span class="mono">₦14,000</span>
+  <a href="#order">Order now</a>
+</div>
+
+<script>
+  // Live watch hands in the hero signature element
+  const secHand = document.getElementById('secHand');
+  const minHand = document.getElementById('minHand');
+  const hourHand = document.getElementById('hourHand');
+  const ticksGroup = document.getElementById('ticks');
+  for(let i=0;i<12;i++){
+    const angle = i * 30 * Math.PI/180;
+    const x1 = 50 + 40*Math.sin(angle), y1 = 50 - 40*Math.cos(angle);
+    const x2 = 50 + 44*Math.sin(angle), y2 = 50 - 44*Math.cos(angle);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('stroke','#8B96AB');line.setAttribute('stroke-width','1.5');
+    ticksGroup.appendChild(line);
+  }
+  function tick(){
+    const now = new Date();
+    const s = now.getSeconds(), m = now.getMinutes(), h = now.getHours()%12;
+    secHand.setAttribute('transform', `rotate(${s*6} 50 50)`);
+    minHand.setAttribute('transform', `rotate(${m*6 + s*0.1} 50 50)`);
+    hourHand.setAttribute('transform', `rotate(${h*30 + m*0.5} 50 50)`);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Order form -> WhatsApp handoff
+  // NOTE for the seller: replace SELLER_WHATSAPP below with your own WhatsApp
+  // number in international format, no + or leading 0s, e.g. "2348012345678".
+  const SELLER_WHATSAPP = "2340000000000";
+
+  document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const qty = document.getElementById('qty').value;
+    const address = document.getElementById('address').value.trim();
+    const total = 14000 * parseInt(qty, 10);
+    const message =
+`New NEXA Watch order:
+Name: ${name}
+Phone: ${phone}
+Quantity: ${qty}
+Address: ${address}
+Total: ₦${total.toLocaleString()}`;
+    const url = `https://wa.me/${SELLER_WHATSAPP}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  });
+</script>
+
+</body>
+</html>
